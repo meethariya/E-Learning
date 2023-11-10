@@ -1,4 +1,4 @@
-package com.virtusa.learning.discoveryserver;
+package com.virtusa.elearning.discoveryserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
