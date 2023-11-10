@@ -1,0 +1,22 @@
+# Discovery Server
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+# Logging
+logging:
+  file:
+    path: /var/log/E-Learning/discoveryserver
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# Server config
+server:
+  port: 8761
+# App Name
+spring:
+  application:
+    name: discoveryserver
