@@ -34,7 +34,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((authorizeHttpRequests -> authorizeHttpRequests
 				.requestMatchers(new AntPathRequestMatcher("/api/userservice/generateToken", "GET")).authenticated()
-				.requestMatchers(new AntPathRequestMatcher("/api/userservice", "PATCH")).authenticated()
+				.requestMatchers(new AntPathRequestMatcher("/api/userservice", "PUT")).authenticated()
 				.requestMatchers(new AntPathRequestMatcher("/api/userservice/*", "DELETE")).authenticated()
 				.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())).csrf(c -> c.disable())
 				.httpBasic(withDefaults());

@@ -1,8 +1,9 @@
-package com.virtusa.elearning.userservice.controller;
+package com.virtusa.elearning.employeeservice.controller;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -10,11 +11,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.virtusa.elearning.userservice.exception.InvalidCredentialsException;
-import com.virtusa.elearning.userservice.exception.UserAlreadyExistException;
-import com.virtusa.elearning.userservice.exception.UserNotFoundException;
+import com.virtusa.elearning.employeeservice.exception.EmployeeAlreadyExistsException;
+import com.virtusa.elearning.employeeservice.exception.EmployeeNotFoundException;
+import com.virtusa.elearning.employeeservice.exception.ServiceUnavailableException;
 
-import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,29 +28,41 @@ import lombok.extern.slf4j.Slf4j;
 public class ExceptionHandlerController {
 
 	/**
-	 * Handles error for {@link UserNotFoundException}.
+	 * Handles error for {@link EmployeeNotFoundException}.
 	 * 
 	 * @param e error
 	 * @return error message
 	 */
-	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException e) {
+	@ExceptionHandler(EmployeeNotFoundException.class)
+	public ResponseEntity<String> handleEmployeeNotFoundException(EmployeeNotFoundException e) {
 		log.error(e.getMessage());
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 	}
-
+	
 	/**
-	 * Handles error for {@link UserAlreadyExistException}.
+	 * Handles error for {@link EmployeeAlreadyExistsException}.
 	 * 
 	 * @param e error
 	 * @return error message
 	 */
-	@ExceptionHandler(UserAlreadyExistException.class)
-	public ResponseEntity<String> handleUserAlreadyExistException(UserAlreadyExistException e) {
+	@ExceptionHandler(EmployeeAlreadyExistsException.class)
+	public ResponseEntity<String> handleEmployeeAlreadyExistsException(EmployeeAlreadyExistsException e) {
 		log.error(e.getMessage());
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 	}
-
+	
+	/**
+	 * Handles error for {@link ServiceUnavailableException}.
+	 * 
+	 * @param e error
+	 * @return error message
+	 */
+	@ExceptionHandler(ServiceUnavailableException.class)
+	public ResponseEntity<String> handleServiceUnavailableException(ServiceUnavailableException e) {
+		log.error(e.getMessage());
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
 	/**
 	 * Handles error for {@link InvalidCredentialsException}.
 	 * 
@@ -59,18 +71,6 @@ public class ExceptionHandlerController {
 	 */
 	@ExceptionHandler(InvalidCredentialsException.class)
 	public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException e) {
-		log.error(e.getMessage());
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-	}
-
-	/**
-	 * Handles error for {@link JwtException}.
-	 * 
-	 * @param e error
-	 * @return error message
-	 */
-	@ExceptionHandler(JwtException.class)
-	public ResponseEntity<String> handleSecurityException(JwtException e) {
 		log.error(e.getMessage());
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 	}
