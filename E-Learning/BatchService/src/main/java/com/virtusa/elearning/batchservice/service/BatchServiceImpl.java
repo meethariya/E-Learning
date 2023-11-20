@@ -16,6 +16,7 @@ import com.virtusa.elearning.batchservice.dto.UpdateBatchDto;
 import com.virtusa.elearning.batchservice.exception.BatchNotFoundException;
 import com.virtusa.elearning.batchservice.model.Batch;
 import com.virtusa.elearning.batchservice.openfeign.EmployeeServiceClient;
+import com.virtusa.elearning.batchservice.openfeign.SubjectServiceClient;
 import com.virtusa.elearning.batchservice.repository.BatchRepository;
 
 import jakarta.transaction.Transactional;
@@ -37,6 +38,9 @@ public class BatchServiceImpl implements BatchService {
 
 	@Autowired
 	private EmployeeServiceClient employeeClient;
+	
+	@Autowired
+	private SubjectServiceClient subjectClient;
 
 	@Value("${server.port}")
 	private int port;
@@ -64,6 +68,9 @@ public class BatchServiceImpl implements BatchService {
 
 		// validate if all learners exists with that id
 		validateLearner(batch);
+		
+		// validate if subject exists with that id
+		subjectClient.getSubject(batch.getSubjectId());
 		
 		// create new batch
 		BatchDto dto = entityToDto(batchRepository.save(batch));

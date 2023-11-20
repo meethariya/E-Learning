@@ -45,7 +45,7 @@ public class EmployeeController {
 	 * @param employeeDto details
 	 * @return saved employee dto.
 	 */
-	@PostMapping
+	@PostMapping("/createEmployee")
 	public ResponseEntity<EmployeeDto> saveEmployee(@Valid @ModelAttribute SaveEmployeeDto employeeDto) {
 		return new ResponseEntity<>(employeeService.createEmployee(employeeDto), HttpStatus.CREATED);
 	}

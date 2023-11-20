@@ -25,7 +25,7 @@ public interface UserServiceClient {
 	 * @param userDto user details
 	 * @return saved user details
 	 */
-	@PostMapping(value = "/api/userservice", consumes = "multipart/form-data")
+	@PostMapping(value = "/api/userservice/createUser", consumes = "multipart/form-data")
 	public UserDto saveUser(SaveUserDto userDto);
 
 	/**

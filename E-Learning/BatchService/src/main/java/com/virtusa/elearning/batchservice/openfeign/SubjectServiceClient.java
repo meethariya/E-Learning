@@ -22,6 +22,6 @@ public interface SubjectServiceClient {
 	 * @param subjectId id
 	 * @return subject
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/api/subjectservice/{id}")
 	public ResponseEntity<SubjectDto> getSubject(@PathVariable("id") int subjectId);
 }

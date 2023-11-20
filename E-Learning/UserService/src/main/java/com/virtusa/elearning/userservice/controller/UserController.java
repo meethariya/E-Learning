@@ -52,7 +52,7 @@ public class UserController {
 	 * @param userDto user details
 	 * @return saved user details
 	 */
-	@PostMapping
+	@PostMapping("/createUser")
 	public ResponseEntity<UserDto> saveUser(@Valid @ModelAttribute SaveUserDto userDto) {
 		return new ResponseEntity<>(userService.saveUser(userDto), HttpStatus.CREATED);
 	}
