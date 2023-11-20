@@ -23,26 +23,28 @@ public class FeignClientConfig {
 	@Bean
 	public ErrorDecoder errorDecoder() {
 		return (String methodKey, Response response) -> {
-			// default error message
-			String message = "Employee service internal error";
 
 			// response status
 			HttpStatus responseStatus = HttpStatus.valueOf(response.status());
 
-			// fetching error message from response
-			Response.Body responseBody = response.body();
-			try {
-				message = IOUtils.toString(responseBody.asInputStream(), StandardCharsets.UTF_8);
-				response.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
-			// response according to employee service's status
+			// response according to user service's status
 			if (responseStatus.isSameCodeAs(HttpStatus.SERVICE_UNAVAILABLE)) {
-				return new ServiceUnavailableException("Employee service unavailable");
+				// appending error status code along with message
+				return new ServiceUnavailableException(String.valueOf(responseStatus.value()) + "Service unavailable");
 			} else {
-				return new ServiceUnavailableException(message);
+				// fetching error message from response
+				Response.Body responseBody = response.body();
+				try {
+					String message = IOUtils.toString(responseBody.asInputStream(), StandardCharsets.UTF_8);
+					response.close();
+					// appending error status code along with message
+					return new ServiceUnavailableException(String.valueOf(responseStatus.value()) + message);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					// appending error status code along with message
+					return new ServiceUnavailableException(
+							String.valueOf(responseStatus.value()) + "Service undefined error");
+				}
 			}
 		};
 	}

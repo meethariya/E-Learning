@@ -57,8 +57,16 @@ public class BatchServiceImpl implements BatchService {
 	public BatchDto createBatch(SaveBatchDto batchDto) {
 		log.info(appName + "@" + port + ": Create batch");
 
+		Batch batch = saveDtoToEntity(batchDto);
+
+		// validate if trainer exists with that id
+		employeeClient.getTrainer(batch.getTrainerId());
+
+		// validate if all learners exists with that id
+		validateLearner(batch);
+		
 		// create new batch
-		BatchDto dto = entityToDto(batchRepository.save(saveDtoToEntity(batchDto)));
+		BatchDto dto = entityToDto(batchRepository.save(batch));
 
 		// update employee service of newly added learners
 		employeeClient.enrollLearners(dtoCreater(dto));
@@ -121,6 +129,13 @@ public class BatchServiceImpl implements BatchService {
 		// update batch details
 		BatchDto batch = getBatch(batchId);
 		Batch entity = editDtoToEntity(batchDto);
+		
+		// validate if its valid trainer id
+		employeeClient.getTrainer(entity.getTrainerId());
+
+		// validate if all learner id are valid
+		validateLearner(entity);
+		
 		entity.setId(batch.getId());
 		entity.setTrainerId(batch.getTrainerId());
 
@@ -144,10 +159,13 @@ public class BatchServiceImpl implements BatchService {
 				() -> new BatchNotFoundException("No batch exists with id: " + learnerToBatchDto.getBatchId()));
 
 		batch.getLearnerIds().addAll(learnerToBatchDto.getLearnerId());
+
+		// validate if all learner id are valid
+		validateLearner(batch);
 		
 		// update employee service with newly added learners
 		employeeClient.enrollLearners(learnerToBatchDto);
-		
+
 		return entityToDto(batchRepository.save(batch));
 	}
 
@@ -206,5 +224,14 @@ public class BatchServiceImpl implements BatchService {
 		addLearnerToBatchDto.setBatchId(dto.getId());
 		addLearnerToBatchDto.setLearnerId(new ArrayList<>(dto.getLearnerIds()));
 		return addLearnerToBatchDto;
+	}
+
+	/**
+	 * Validates if all learners from batch are valid learners.
+	 * 
+	 * @param batch
+	 */
+	private void validateLearner(Batch batch) {
+		batch.getLearnerIds().forEach(employeeClient::getLearner);
 	}
 }

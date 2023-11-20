@@ -23,7 +23,6 @@ public class FeignClientConfig {
 	@Bean
 	public ErrorDecoder errorDecoder() {
 		return (String methodKey, Response response) -> {
-			// default error message
 
 			// response status
 			HttpStatus responseStatus = HttpStatus.valueOf(response.status());

@@ -38,7 +38,7 @@ public class ExceptionHandlerController {
 		log.error(e.getMessage());
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 	}
-	
+
 	/**
 	 * Handles error for {@link EmployeeAlreadyExistsException}.
 	 * 
@@ -50,7 +50,7 @@ public class ExceptionHandlerController {
 		log.error(e.getMessage());
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 	}
-	
+
 	/**
 	 * Handles error for {@link ServiceUnavailableException}.
 	 * 
@@ -59,10 +59,14 @@ public class ExceptionHandlerController {
 	 */
 	@ExceptionHandler(ServiceUnavailableException.class)
 	public ResponseEntity<String> handleServiceUnavailableException(ServiceUnavailableException e) {
-		log.error(e.getMessage());
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+		// extracting error status code from, message.
+		String errorMessage = e.getMessage();
+		int status = Integer.parseInt(errorMessage.subSequence(0, 3).toString());
+		errorMessage = errorMessage.substring(3);
+		log.error(errorMessage);
+		return new ResponseEntity<>(errorMessage, HttpStatus.resolve(status));
 	}
-	
+
 	/**
 	 * Handles error for {@link InvalidCredentialsException}.
 	 * 
