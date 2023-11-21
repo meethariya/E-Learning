@@ -1,0 +1,14 @@
+# Discovery Server
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+
+# Logging
+logging:
+  file:
+    path: /var/log/E-Learning/discoveryserver
+
+# Server config
+server:
+  port: 8761
