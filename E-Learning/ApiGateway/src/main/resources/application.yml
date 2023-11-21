@@ -1,7 +1,7 @@
-# App Name
+# App name
 spring:
   application:
-    name: discoveryserver
+    name: apigateway
   # Cloud Config
   cloud:
     config:

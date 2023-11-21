@@ -1,7 +1,7 @@
 # App Name
 spring:
   application:
-    name: discoveryserver
+    name: employeeservice
   # Cloud Config
   cloud:
     config:

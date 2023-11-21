@@ -1,45 +1,10 @@
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
-logging:
-  file:
-    path: /var/log/E-Learning/userservice
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  tracing:
-    sampling:
-      probability: 1.0
-server:
-  port: 8090
+# App Name
 spring:
   application:
     name: userservice
-  datasource:
-    password: Hariya@123
-    url: jdbc:mysql://localhost/elearning
-    username: meet
-  jpa:
-    open-in-view: false
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-  security:
-    user:
-      name: meet
-      password: Hariya@123
+  # Cloud Config
+  cloud:
+    config:
+      uri: http://localhost:8888/
   config:
-    import:
-    - messages.properties
-    
-# JWT Secret
-#jwt:
-#  secret: 5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
+    import: configserver:http://localhost:8888/
