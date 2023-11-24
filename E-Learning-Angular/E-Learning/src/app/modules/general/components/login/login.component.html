@@ -9,39 +9,94 @@
       <div class="col-md-6 col-lg-4">
         <div class="login-wrap p-0">
           <h3 class="mb-4 text-center">Have an account?</h3>
-          <form action="#" class="signin-form">
+          <form
+            class="signin-form needs-validation"
+            [formGroup]="loginForm"
+            (ngSubmit)="login()"
+          >
             <div class="form-group">
               <input
-                type="text"
+                type="email"
                 class="form-control"
-                placeholder="Username"
+                placeholder="Email"
+                formControlName="email"
+                [ngClass]="
+                  f.email.touched
+                    ? f.email.invalid
+                      ? 'is-invalid'
+                      : 'is-valid'
+                    : ''
+                "
                 required
               />
+              <div class="valid-feedback">Looks good!</div>
+              <div
+                *ngIf="f.email.errors?.['required']"
+                class="invalid-feedback"
+              >
+                Email is required.
+              </div>
+              <div *ngIf="f.email.errors?.['email']" class="invalid-feedback">
+                Enter valid email.
+              </div>
             </div>
             <div class="form-group">
               <input
                 id="password-field"
                 type="password"
                 class="form-control"
+                formControlName="password"
+                [ngClass]="
+                  f.password.touched
+                    ? f.password.invalid
+                      ? 'is-invalid'
+                      : 'is-valid'
+                    : ''
+                "
                 placeholder="Password"
                 required
+                minlength="8"
               />
+
               <span
                 toggle="#password-field"
                 class="fa fa-fw fa-eye field-icon toggle-password"
               ></span>
+              <div class="valid-feedback">Looks good!</div>
+              <div
+                *ngIf="f.password.errors?.['required']"
+                class="invalid-feedback"
+              >
+                Password is required
+              </div>
+              <div
+                *ngIf="f.password.errors?.['minLength']"
+                class="invalid-feedback"
+              >
+                Minimun password should be at least 8 characters
+              </div>
+              <div
+                *ngIf="f.password.errors?.['pattern']"
+                class="invalid-feedback"
+              >
+                1 upper-case, 1 lower-case, 1 numbers & 1 special character of
+                minimum 8 characters required
+              </div>
             </div>
             <div class="form-group">
               <button
                 type="submit"
                 class="form-control btn btn-primary submit px-3"
+                [disabled]="!loginForm.valid"
               >
                 Sign In
               </button>
             </div>
             <div class="form-group d-md-flex">
               <div class="w-50">
-                <a href="forgot-password" style="color: #fff">Forgot Password</a>
+                <a href="forgot-password" style="color: #fff"
+                  >Forgot Password</a
+                >
               </div>
               <div class="w-50 text-md-right">
                 <a routerLink="register" style="color: #fff">Register</a>

@@ -6,6 +6,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
   ],
   imports: [
     CommonModule,
-    GeneralRoutingModule
+    GeneralRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class GeneralModule { }
