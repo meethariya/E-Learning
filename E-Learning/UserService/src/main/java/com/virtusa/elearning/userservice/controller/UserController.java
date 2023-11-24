@@ -45,6 +45,17 @@ public class UserController {
 	public ResponseEntity<UserDto> getUser(@PathVariable("id") int id) {
 		return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
 	}
+	
+	/**
+	 * Get user by email.
+	 * 
+	 * @param email user email
+	 * @return user dto
+	 */
+	@GetMapping("/email/{email}")
+	public ResponseEntity<UserDto> getUser(@PathVariable("email") String email) {
+		return new ResponseEntity<>(userService.getUser(email), HttpStatus.OK);
+	}
 
 	/**
 	 * Save user.

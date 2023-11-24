@@ -97,6 +97,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void validateToken(String token) {
 		log.info(appName + "@" + port + ": Validate token");
+		
 		Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
 
 	}
@@ -107,6 +108,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(int id) {
 		log.info(appName + "@" + port + ": Delete user");
+		
 		userRepository.deleteById(id);
 	}
 
@@ -119,11 +121,28 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public UserDto getUser(int id) {
+		log.info(appName + "@" + port + ": Get user by id");
+		
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("No user found with id: " + id));
 		return entityToDto(user);
 	}
-	
+
+	/**
+	 * Get user by email.
+	 * 
+	 * @param email user-email
+	 * @return user dto
+	 */
+	@Override
+	public UserDto getUser(String email) {
+		log.info(appName + "@" + port + ": Get user by email");
+		
+		User user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new UserNotFoundException("No user found with email: " + email));
+		return entityToDto(user);
+	}
+
 	/**
 	 * Edit user's password and role
 	 * 
@@ -133,6 +152,8 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public UserDto editUser(EditUserDto userDto, String email) {
+		log.info(appName + "@" + port + ": Edit user");
+		
 		User user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new UserNotFoundException("No user found with email: " + email));
 		user.setPassword(passwordEncoder.encode(userDto.getPassword()));

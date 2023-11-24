@@ -61,4 +61,12 @@ public interface UserService {
 	 * @return updated user dto
 	 */
 	public UserDto editUser(EditUserDto userDto, String email);
+
+	/**
+	 * Get user credentials by email.
+	 * 
+	 * @param email user-email
+	 * @return user dto
+	 */
+	public UserDto getUser(String email);
 }
